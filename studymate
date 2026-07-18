@@ -1,1 +1,22 @@
+# StudyMate Notes App
 
+## Overview
+StudyMate is a full‑stack notes application with AI integration.  
+Features:
+- React frontend (Vite)
+- Express + MongoDB backend
+- MCP server tools for Claude Desktop
+- AI summarization (OpenAI/Claude)
+
+## Tech Stack
+- Frontend: React + Vite
+- Backend: Express + MongoDB (Mongoose)
+- AI: OpenAI GPT‑4o‑mini (or Claude)
+- MCP: Node MCP server over stdio
+
+## Setup
+
+### 1. Backend (Express + MongoDB)
+```bash
+cd server
+npm install
