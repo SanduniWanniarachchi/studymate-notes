@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+const fetch = require("node-fetch");
+
+// MCP server boilerplate
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
+
+// Handle incoming requests
+rl.on("line", async (line) => {
+  try {
+    const request = JSON.parse(line);
+
+    if (request.method === "list_notes") {
+      const res = await fetch("http://localhost:5000/api/notes");
+      const notes = await res.json();
+      respond(request.id, notes);
+    }
+
+    else if (request.method === "create_note") {
+      const { title, subject, content } = request.params;
+      const res = await fetch("http://localhost:5000/api/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, subject, content })
+      });
+      const note = await res.json();
+      respond(request.id, note);
+    }
+
+    else {
+      respondError(request.id, "Unknown method");
+    }
+  } catch (err) {
+    console.error("Error:", err);
+  }
+});
+
+function respond(id, result) {
+  const response = { id, result };
+  console.log(JSON.stringify(response));
+}
+
+function respondError(id, error) {
+  const response = { id, error };
+  console.log(JSON.stringify(response));
+}
